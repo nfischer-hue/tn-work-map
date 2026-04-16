@@ -1,1 +1,6 @@
-
+pandas
+folium
+geopandas
+fiona
+gdown
+shapely
