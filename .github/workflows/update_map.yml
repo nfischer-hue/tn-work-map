@@ -1,0 +1,31 @@
+name: Update Daily Map
+on:
+  schedule:
+    - cron: '0 2 * * *' # 2:00 AM daily
+  workflow_dispatch: # Allows manual run
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Map Script
+        run: python scripts/build_map.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name 'MapBot'
+          git config --global user.email 'bot@github.com'
+          git add index.html
+          git commit -m "Automated map update" || exit 0
+          git push
