@@ -1,20 +1,22 @@
 name: Update Daily Map
 on:
   schedule:
-    - cron: '0 2 * * *' # 2:00 AM daily
-  workflow_dispatch: # Allows manual run
+    - cron: '0 2 * * *' # Runs at 2:00 AM daily
+  workflow_dispatch: # Allows you to click "Run" manually
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # Updated from v3 to v4
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5  # Updated from v4 to v5
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11' # Upgraded to a modern python version too
+          python-version: '3.11'
 
       - name: Install dependencies
         run: pip install -r requirements.txt
